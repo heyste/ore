@@ -1,0 +1,29 @@
+#+title: Simple Presentation
+#+date: 2021-08-24
+#+startup: everything
+
+
+* Org Reveal Enhancements
+** s1a
+:PROPERTIES:
+:orn: s1a,ore_01,ore_02,ore_03
+:ore_01: {"id":"circle1","svg":"images/circle1.svg","x":50,"y":50,"size":1}
+:ore_02: {"id":"square1","svg":"images/square1.svg","x":10,"y": 10,"size":1}
+:ore_03: {"id":"triangle1","svg":"images/triangle1.svg","x":90,"y":90,"size":1}
+:END:
+
+** s1b
+:PROPERTIES:
+:orn: s1b,ore_01,ore_02,ore_03
+:ore_01: {"id":"cirecle1","svg":"images/circle1.svg","x":10,"y":10,"size":1}
+:ore_02: {"id":"square1","svg":"images/square1.svg","x":20,"y": 20,"size":1}
+:ore_03: {"id":"triangle1","svg":"images/triangle1.svg","x":80,"y":80,"size":2}
+:END:
+
+** s1c
+:PROPERTIES:
+:orn: s1c,ore_01,ore_02,ore_03
+:ore_01: {"id":"circle1","svg":"images/circle1.svg","x":50,"y":50,"size":1}
+:ore_02: {"id":"square1","svg":"images/square1.svg","x":10,"y": 10,"size":0.5}
+:ore_03: {"id":"triangle1","svg":"images/triangle1.svg","x":0,"y":0,"size":0}
+:END:

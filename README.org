@@ -1,0 +1,21 @@
+#+title: Org Reveal Enhancements
+
+
+* MVP Goal
+
+Use an org file to generate a simple presentation that uses [[https://revealjs.com/auto-animate/][RevealJS Auto-Animate]] with some SVG images.
+There are some interesting ideas that could be presentated in a totally new way with this technology.
+
+* Why?
+
+Creating a solution to the above goal provides enough scope that will require learning more about org-mode, emacs lisp and how an Abstract Syntax Tree (AST) works.
+
+* Org-mode functions
+
+- =org-element-parse-buffer=
+- =org-element-property=
+- =org-element-map=
+
+* =ore.el=
+
+=ore.el= is the project lisp package. It's very rough and doesn't solve the problem yet! Data structures are still being explored too.
