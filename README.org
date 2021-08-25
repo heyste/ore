@@ -14,7 +14,7 @@ Creating a solution for the above goal provides enough scope that will require l
 
 It's still in a "pre-alpha" state that doesn't solve the MVP goal yet! The data structures are still being explored and subject to redesign as I learn more.
 
-I've now been able to locate each slide (inside [[./example/simple-presentation.org][simple-presentation.org]]) and the data structures for the svg images "elements".
+I've now been able to locate each slide (inside [[./examples/simple-presentation.org][simple-presentation.org]]) and the data structures for the svg images "elements".
 
 #+begin_example
 "slide 1a
