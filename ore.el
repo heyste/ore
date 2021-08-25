@@ -12,7 +12,7 @@
   (print "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n</head>\n<body>"))
 
 (defun ore/end-page ()
-  "Gernate closing html tages for the presentation."
+  "Generate closing html tages for the presentation."
   (print "</body>\n</html>"))
 
 (defun ore/add-section ()
@@ -23,61 +23,45 @@
   "Generate closing section html tag for a slide."
   (print "</section>"))
 
-(defun ore/render-elements (node elements)
-  "Render ELEMENTS in this NODE."
-  (print node)
-  (print elements)
+(defun ore/render-elements (headline ore-value)
+  "Using HEADLINE and ORE-VALUE to render slide elements for this node."
+  (progn
+    (let ((location (org-element-property :contents-begin headline)))
+      (goto-char location)
+      (setq headline-properties (org-entry-properties))
 
-  (catch 'foo
-  (dolist (element elements)
-    (print element)
+        (dolist (element headline-properties)
+          (setq element-key (car element))
+          (if (and (stringp element-key)
+                   (string-match "^ORE_\\([[:digit:]]+\\)$" element-key))
+              (print (cdr element))))))
+  )
 
-    (print (org-element-map tree 'headline
-        (lambda (hl)
-          (print node)
-          (when (string= (org-element-property :raw-value hl) node)
-                             (progn (print ">> Return Elements")
-                                    (setq location (org-element-property :contents-begin hl))
-                                    (print location)
-                                    (goto-char location)
-                                    (print (org-entry-properties))
-                                    ;;; break out map as we have found the node in the headline properties
-                                    (throw 'foo t))))))
-           )))
-
-(defun ore/process-orn (orn)
-  "Process ORN tag."
-  (print "ore/process-orn")
-  (print orn))
-
-(defun ore/parse-document ()
-  "Parse document and generate html presentation."
+(defun ore/parse-document (tree)
+  "Parse TREE and generate html presentation."
   (print "ore/parse-document")
 
-  (setq or-nodes (org-element-map tree 'headline
+  (org-element-map tree 'headline
     (lambda (hl)
-      (and (org-element-property :level hl)
-           (org-element-property :ORN hl)
-           ;; return
-           (org-element-property :ORN hl)))))
-
-  (print (length or-nodes))
-
-  (dolist (element or-nodes)
-    (setq node-elements (split-string element ","))
-    (ore/render-elements (car node-elements) (cdr node-elements))))
+      (let ((value (org-element-property :ORE hl)))
+        (when value
+          (progn
+            (print (concat (org-element-property :raw-value hl) "\nKey: ORE  Value: " value ))
+            (ore/render-elements hl value)
+        )))))
+  )
 
 (defun ore/render-presentation()
     "Render the current buffer into a reveal.js presentation."
     (interactive)
-    (progn (setq ore-starting-point (point))
-           (set-mark ore-starting-point)
-           (setq tree (org-element-parse-buffer))
-
-           (print "ore/render-presentation")
-           (ore/start-page)
-           (ore/parse-document)
-           (print (ore/end-page))))
+    (progn (push-mark (point) t t)
+           (let ((tree (org-element-parse-buffer)))
+             (print "ore/render-presentation")
+             (ore/start-page)
+             (ore/parse-document tree))
+           (print (ore/end-page))
+           (pop-mark))
+    )
 
 (provide 'ore)
 ;;; ore.el ends here

@@ -8,14 +8,87 @@ There are some interesting ideas that could be presentated in a totally new way 
 
 * Why?
 
-Creating a solution to the above goal provides enough scope that will require learning more about org-mode, emacs lisp and how an Abstract Syntax Tree (AST) works.
+Creating a solution for the above goal provides enough scope that will require learning more about org-mode, emacs lisp and how an Abstract Syntax Tree (AST) works.
+
+* Status
+
+It's still in a "pre-alpha" state that doesn't solve the MVP goal yet! The data structures are still being explored and subject to redesign as I learn more.
+
+I've now been able to locate each slide (inside [[./example/simple-presentation.org][simple-presentation.org]]) and the data structures for the svg images "elements".
+
+#+begin_example
+"slide 1a
+Key: ORE  Value: ORN"
+
+"{\"id\":\"triangle1\",\"svg\":\"images/triangle1.svg\",\"x\":90,\"y\":90,\"size\":1}"
+
+"{\"id\":\"square1\",\"svg\":\"images/square1.svg\",\"x\":10,\"y\": 10,\"size\":1}"
+
+"{\"id\":\"circle1\",\"svg\":\"images/circle1.svg\",\"x\":50,\"y\":50,\"size\":1}"
+
+"slide 1b
+Key: ORE  Value: ORN"
+
+"{\"id\":\"triangle1\",\"svg\":\"images/triangle1.svg\",\"x\":80,\"y\":80,\"size\":2}"
+
+"{\"id\":\"square1\",\"svg\":\"images/square1.svg\",\"x\":20,\"y\": 20,\"size\":1}"
+
+"{\"id\":\"cirecle1\",\"svg\":\"images/circle1.svg\",\"x\":10,\"y\":10,\"size\":1}"
+
+"slide 1c
+Key: ORE  Value: ORN"
+
+"{\"id\":\"triangle1\",\"svg\":\"images/triangle1.svg\",\"x\":0,\"y\":0,\"size\":0}"
+
+"{\"id\":\"square1\",\"svg\":\"images/square1.svg\",\"x\":10,\"y\": 10,\"size\":0.5}"
+
+"{\"id\":\"circle1\",\"svg\":\"images/circle1.svg\",\"x\":50,\"y\":50,\"size\":1}"
+#+end_example
+
+* Resources
+
+- [[https://orgmode.org/worg/dev/org-element-api.html][Org Element API (orgmode.org)]]
+- [[http://ergoemacs.org/emacs/elisp_parse_org_mode.html][Elisp: Parse Org Mode (ergoemacs.org)]]
+- [[https://orgmode.org/manual/Command-and-Function-Index.html][Command and Function Index (orgmode.org)]]
 
 * Org-mode functions
 
 - =org-element-parse-buffer=
+- =org-entry-properties=
 - =org-element-property=
 - =org-element-map=
 
 * =ore.el=
 
-=ore.el= is the project lisp package. It's very rough and doesn't solve the problem yet! Data structures are still being explored too.
+=ore.el= is the project lisp package.
+
+* Lessons
+** #1
+
+Creating an AST of an org file isn't that hard as shown in the following snippet (with a small part of the first section).
+
+#+begin_src elisp
+(org-element-parse-buffer)
+#+end_src
+
+#+begin_example
+(org-data nil
+          (section
+           (:begin 1 :end 36 :contents-begin 1 :contents-end 34 :post-blank 2 :post-affiliated 1 :parent #0)
+           (keyword
+            (:key "TITLE" :value "Org Reveal Enhancements" :begin 1 :end 34 :post-blank 0 :post-affiliated 1 :parent #1)))
+          (headline
+           (:raw-value "MVP Goal" :begin 36 :end 295 :pre-blank 1 :contents-begin 48 :contents-end 294 :level 1 :priority nil :tags nil :todo-keyword nil :todo-type nil :post-blank 1 :footnote-section-p nil :archivedp nil :commentedp nil :post-affiliated 36 :title
+                       (#("MVP Goal" 0 8
+                          (:parent #1)))
+                       :parent #0)
+#+end_example
+
+The real problem is the amount of information included in the =org-data= strucuture.
+Even though it's overwhelming to start with the authors of org-mode have created some helpful functions.
+The most helpful function so far has been =org-entry-properties= which "Get all properties of the current entry."
+The only issue when using it is that it's based on where the /point/ is located in the document.
+So, to use it I've had to use =goto-char= to relocate the /point/ to different headings (slides) through the document.
+
+As I hit various problems I just need to work through the documentation, explore and test snippets of lisp as I break the data structures and problems futher apart.
+Still lots to learn!!
