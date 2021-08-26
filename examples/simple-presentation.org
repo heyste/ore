@@ -7,23 +7,23 @@
 ** slide 1a
 :PROPERTIES:
 :ORE: ORN
-:ore_01: {"id":"circle1","svg":"images/circle1.svg","x":50,"y":50,"size":1}
-:ore_02: {"id":"square1","svg":"images/square1.svg","x":10,"y": 10,"size":1}
-:ore_03: {"id":"triangle1","svg":"images/triangle1.svg","x":90,"y":90,"size":1}
+:ore_01: {"id":"circle1","file":"images/circle1.svg","x":50,"y":50,"size":1}
+:ore_02: {"id":"square1","file":"images/square1.svg","x":10,"y": 10,"size":1}
+:ore_03: {"id":"triangle1","file":"images/triangle1.svg","x":90,"y":90,"size":1}
 :END:
 
 ** slide 1b
 :PROPERTIES:
 :ORE: ORN
-:ore_01: {"id":"cirecle1","svg":"images/circle1.svg","x":10,"y":10,"size":1}
-:ore_02: {"id":"square1","svg":"images/square1.svg","x":20,"y": 20,"size":1}
-:ore_03: {"id":"triangle1","svg":"images/triangle1.svg","x":80,"y":80,"size":2}
+:ore_01: {"id":"circle1","file":"images/circle1.svg","x":10,"y":10,"size":1}
+:ore_02: {"id":"square1","file":"images/square1.svg","x":20,"y": 20,"size":1}
+:ore_03: {"id":"triangle1","file":"images/triangle1.svg","x":80,"y":80,"size":2}
 :END:
 
 ** slide 1c
 :PROPERTIES:
 :ORE: ORN
-:ore_01: {"id":"circle1","svg":"images/circle1.svg","x":50,"y":50,"size":1}
-:ore_02: {"id":"square1","svg":"images/square1.svg","x":10,"y": 10,"size":0.5}
-:ore_03: {"id":"triangle1","svg":"images/triangle1.svg","x":0,"y":0,"size":0}
+:ore_01: {"id":"circle1","file":"images/circle1.svg","x":50,"y":50,"size":1}
+:ore_02: {"id":"square1","file":"images/square1.svg","x":10,"y": 10,"size":0.5}
+:ore_03: {"id":"triangle1","file":"images/triangle1.svg","x":0,"y":0,"size":0}
 :END:
