@@ -47,7 +47,9 @@
         (when value
           (progn
             (print (concat (org-element-property :raw-value hl) "\nKey: ORE  Value: " value ))
+            (ore/add-section)
             (ore/render-elements hl value)
+            (ore/end-section)
         )))))
   )
 
