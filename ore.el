@@ -23,6 +23,16 @@
   "Generate closing section html tag for a slide."
   (print "</section>"))
 
+(defun ore/load-svg-element (file)
+  "Using FILE add the contents of the svg."
+  (print (concat (file-name-directory (buffer-file-name)) file))
+  )
+
+(defun ore/render-element (element)
+  "Using ELEMENT load the svg at the required location on the page."
+  (ore/load-svg-element (gethash "file" (json-parse-string element)))
+  )
+
 (defun ore/render-elements (headline ore-value)
   "Using HEADLINE and ORE-VALUE to render slide elements for this node."
   (progn
@@ -34,7 +44,7 @@
           (setq element-key (car element))
           (if (and (stringp element-key)
                    (string-match "^ORE_\\([[:digit:]]+\\)$" element-key))
-              (print (cdr element))))))
+              (ore/render-element (cdr element))))))
   )
 
 (defun ore/parse-document (tree)
