@@ -31,8 +31,14 @@
   )
 
 (defun ore/end-page ()
-  "Insert closing html tages for the presentation into the ore-temp-html-buffer."
-  (ore/insert "</div>\n</div>\n</body>\n</html>\n")
+  "Insert closing html tages and revealjs script for the presentation into the ore-temp-html-buffer."
+  (ore/insert (concat "</div>\n</div>\n"
+                      "<script>\n"
+                      "  Reveal.initialize({\n"
+                      "          hash: true\n"
+                      "});\n"
+                      "</script>\n"
+                      "</body>\n</html>\n"))
   )
 
 (defun ore/add-section ()
