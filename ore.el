@@ -62,9 +62,10 @@
 (defun ore/render-element (element)
   "Using ELEMENT load the svg at the required location on the page."
   (let ((id (gethash "id" (json-parse-string element)))
+        (speed (gethash "speed" (json-parse-string element)))
         (x (gethash "x" (json-parse-string element)))
         (y (gethash "y" (json-parse-string element))))
-    (ore/insert (concat "<div data-id=\"" id "\" style=\"position: absolute; top: " y "%; left: " x "%;\">\n")))
+    (ore/insert (concat "<div data-id=\"" id "\" data-auto-animate-duration=\"" speed "\" style=\"position: absolute; top: " y "%; left: " x "%;\">\n")))
 
   (ore/load-svg-element (gethash "file" (json-parse-string element)))
   (ore/insert "</div>\n")
