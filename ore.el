@@ -16,8 +16,6 @@
 
 (defun ore/start-page ()
   "Insert opening html tags for the presentation into the ore-temp-html-buffer."
-  ;; (ore/insert "ore/start-page\n")
-  ;; (ore/insert (concat "<!DOCTYPE html>\n" "<html lang=\"en\">\n"))
   (ore/insert (concat "<!DOCTYPE html>\n"
                       "<html lang=\"en\">\n"
                       "<head>\n"
