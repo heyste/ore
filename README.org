@@ -12,38 +12,39 @@ Creating a solution for the above goal provides enough scope that will require l
 
 * Status
 
-It's still in a "pre-alpha" state that doesn't solve the MVP goal yet! The data structures are still being explored and subject to redesign as I learn more.
-
-I've now been able to locate each slide (inside [[./examples/simple-presentation.org][simple-presentation.org]]) and the data structures for the svg images "elements".
+It's in a very "alpha" state that can provide a very simple revealjs HTML presentation! Each 'element' listed inside of [[./examples/simple-presentation.org][simple-presentation.org]] can now be placed on a slide with other 'elements' and be 'animated' between slides with minor changes.
 
 #+begin_example
-"slide 1a
-Key: ORE  Value: ORN"
-
-"{\"id\":\"triangle1\",\"svg\":\"images/triangle1.svg\",\"x\":90,\"y\":90,\"size\":1}"
-
-"{\"id\":\"square1\",\"svg\":\"images/square1.svg\",\"x\":10,\"y\": 10,\"size\":1}"
-
-"{\"id\":\"circle1\",\"svg\":\"images/circle1.svg\",\"x\":50,\"y\":50,\"size\":1}"
-
-"slide 1b
-Key: ORE  Value: ORN"
-
-"{\"id\":\"triangle1\",\"svg\":\"images/triangle1.svg\",\"x\":80,\"y\":80,\"size\":2}"
-
-"{\"id\":\"square1\",\"svg\":\"images/square1.svg\",\"x\":20,\"y\": 20,\"size\":1}"
-
-"{\"id\":\"cirecle1\",\"svg\":\"images/circle1.svg\",\"x\":10,\"y\":10,\"size\":1}"
-
-"slide 1c
-Key: ORE  Value: ORN"
-
-"{\"id\":\"triangle1\",\"svg\":\"images/triangle1.svg\",\"x\":0,\"y\":0,\"size\":0}"
-
-"{\"id\":\"square1\",\"svg\":\"images/square1.svg\",\"x\":10,\"y\": 10,\"size\":0.5}"
-
-"{\"id\":\"circle1\",\"svg\":\"images/circle1.svg\",\"x\":50,\"y\":50,\"size\":1}"
+<section data-auto-animate style="height: 90vh;">
+<div data-id="triangle1" data-auto-animate-duration="2" style="position: absolute; top: 1%; left: 50%;">
+<svg xmlns="http://www.w3.org/2000/svg" role="img" height="100" width="100">
+  <polyline points="50 20 20 80 80 80 50 20" stroke="black" fill="blue" stroke-width="3"/>
+</svg>
+</div>
+<div data-id="square1" data-auto-animate-duration="0.5" style="position: absolute; top: 62%; left: 50%;">
+<svg xmlns="http://www.w3.org/2000/svg" role="img" height="100" width="100">
+  <rect x="10" y="10" width="80" height="80" stroke="black" fill="green" stroke-width="3"/>
+</svg>
+</div>
+<div data-id="circle1" data-auto-animate-duration="1" style="position: absolute; top: 1%; left: 1%;">
+<svg xmlns="http://www.w3.org/2000/svg" role="img" height="100" width="100">
+  <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>
+</div>
+</section>
 #+end_example
+
+The data structures are still being explored and subject to redesign as I learn more. Each set of =ore_= properties will render another 'element' for that slide.
+
+#+begin_example
+:PROPERTIES:
+:ORE: ORN
+:ore_01: {"id":"circle1","file":"images/circle1.svg","x":"1","y":"1","size":"1","speed":"1"}
+:ore_02: {"id":"square1","file":"images/square1.svg","x":"50","y":"62","size":"1","speed":"0.5"}
+:ore_03: {"id":"triangle1","file":"images/triangle1.svg","x":"50","y":"1","size":"1","speed":"2"}
+:END:
+#+end_example
+
 
 * Resources
 
