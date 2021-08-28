@@ -7,29 +7,34 @@
 ;;;; Require other packages
 (require 'org)
 
-(defun ore/start-page ()
-  "Generate opening html tags for the presentation."
-  (print (concat "<!DOCTYPE html>\n"
-                 "<html lang=\"en\">\n"
-                 "<head>\n"
-                 "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/reset.min.css\" integrity=\"sha512-Mjxkx+r7O/OLQeKeIBCQ2yspG1P5muhAtv/J+p2/aPnSenciZWm5Wlnt+NOUNA4SHbnBIE/R2ic0ZBiCXdQNUg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n"
-                 "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/reveal.min.css\" integrity=\"sha512-WFGU7IgfYR0dq5aORzbD+NApAXdExNZFb7LaoO8olYImBW/iZxAwjKEuT+oYcFR6gOd+DAFssq/icMn8YVbQxQ==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n"
-                 "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/theme/black.css\" integrity=\"sha512-UM89RlvOqgNbcGojhsntvOI5NX/Bbv96ba1q9nVzwVEbQJYG5sRYewxQMfE8TR1vzGnqkXfZioj3xbnYGTcn2A==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n"
-                 "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/reveal.min.js\" integrity=\"sha512-K7P1+dtPriNNHlE4aJr+JKx1X6R0wvy24QBqL2CxaHc4XdkQjrH2t2FCrgoxZGMh6s1TgigNLEdrWa6NJra6Zg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"></script>\n"
-                 "</head>\n<body>"))
+(defun ore/start-page (html-buffer)
+  "Insert opening html tags for the presentation into the HTML-BUFFER."
+  (progn
+    (switch-to-buffer html-buffer)
+    (insert (concat "<!DOCTYPE html>\n"
+                    "<html lang=\"en\">\n"
+                    "<head>\n"
+                    "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/reset.min.css\" integrity=\"sha512-Mjxkx+r7O/OLQeKeIBCQ2yspG1P5muhAtv/J+p2/aPnSenciZWm5Wlnt+NOUNA4SHbnBIE/R2ic0ZBiCXdQNUg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n"
+                    "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/reveal.min.css\" integrity=\"sha512-WFGU7IgfYR0dq5aORzbD+NApAXdExNZFb7LaoO8olYImBW/iZxAwjKEuT+oYcFR6gOd+DAFssq/icMn8YVbQxQ==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n"
+                    "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/theme/black.css\" integrity=\"sha512-UM89RlvOqgNbcGojhsntvOI5NX/Bbv96ba1q9nVzwVEbQJYG5sRYewxQMfE8TR1vzGnqkXfZioj3xbnYGTcn2A==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n"
+                    "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/reveal.min.js\" integrity=\"sha512-K7P1+dtPriNNHlE4aJr+JKx1X6R0wvy24QBqL2CxaHc4XdkQjrH2t2FCrgoxZGMh6s1TgigNLEdrWa6NJra6Zg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"></script>\n"
+                    "</head>\n<body>\n")))
   )
 
-(defun ore/end-page ()
-  "Generate closing html tages for the presentation."
-  (print "</body>\n</html>"))
+(defun ore/end-page (html-buffer)
+  "Insert closing html tages for the presentation into the HTML-BUFFER."
+  (progn
+    (switch-to-buffer html-buffer)
+    (insert "</body>\n</html>"))
+  )
 
 (defun ore/add-section ()
   "Generate opening section html tag for a slide."
-  (print "<section data-auto-animate>"))
+  (insert "<section data-auto-animate>\n"))
 
 (defun ore/end-section ()
   "Generate closing section html tag for a slide."
-  (print "</section>"))
+  (insert "</section>\n"))
 
 (defun ore/read-file (file)
   "Return the contents of the FILE."
@@ -41,7 +46,6 @@
   "Using FILE add the contents of the svg."
   (let ((filename (concat (file-name-directory (buffer-file-name)) file)))
     (print (ore/read-file filename)))
-
   )
 
 (defun ore/render-element (element)
@@ -63,16 +67,19 @@
               (ore/render-element (cdr element))))))
   )
 
-(defun ore/parse-document (tree)
-  "Parse TREE and generate html presentation."
+(defun ore/parse-document (tree html-buffer org-buffer)
+  "Parse TREE and ORG-BUFFER and generate html presentation in HTML-BUFFER."
   (org-element-map tree 'headline
     (lambda (hl)
       (let ((value (org-element-property :ORE hl)))
         (when value
           (progn
-            (print (concat "<!-- " (org-element-property :raw-value hl) " Key: ORE  Value: " value " -->"))
+            (switch-to-buffer html-buffer)
+            (insert (concat "<!-- [" (org-element-property :raw-value hl) "] [Key: ORE] [Value: " value "] -->\n"))
             (ore/add-section)
+            (switch-to-buffer org-buffer)
             (ore/render-elements hl value)
+            (switch-to-buffer html-buffer)
             (ore/end-section)
         )))))
   )
@@ -81,10 +88,18 @@
     "Render the current buffer into a reveal.js presentation."
     (interactive)
     (progn (push-mark (point) t t)
-           (let ((tree (org-element-parse-buffer)))
-             (ore/start-page)
-             (ore/parse-document tree))
-           (print (ore/end-page))
+
+           (let* ((html-buffer (generate-new-buffer (org-id-new " ore")))
+                  (org-buffer (buffer-name))
+                  (tree (org-element-parse-buffer)))
+             (ore/start-page html-buffer)
+             (ore/parse-document tree html-buffer org-buffer)
+             (ore/end-page html-buffer)
+
+             (write-file "/tmp/simple-presentation.html")
+             (kill-buffer)
+             (switch-to-buffer org-buffer))
+
            (pop-mark))
     )
 
