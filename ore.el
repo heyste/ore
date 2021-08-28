@@ -41,7 +41,7 @@
 
 (defun ore/add-section ()
   "Generate opening section html tag for a slide."
-  (ore/insert "<section data-auto-animate>\n"))
+  (ore/insert "<section data-auto-animate style=\"height: 90vh;\">\n"))
 
 (defun ore/end-section ()
   "Generate closing section html tag for a slide."
@@ -61,7 +61,13 @@
 
 (defun ore/render-element (element)
   "Using ELEMENT load the svg at the required location on the page."
+  (let ((id (gethash "id" (json-parse-string element)))
+        (x (gethash "x" (json-parse-string element)))
+        (y (gethash "y" (json-parse-string element))))
+    (ore/insert (concat "<div data-id=\"" id "\" style=\"position: absolute; top: " y "%; left: " x "%;\">\n")))
+
   (ore/load-svg-element (gethash "file" (json-parse-string element)))
+  (ore/insert "</div>\n")
   )
 
 (defun ore/render-elements (headline ore-value)
