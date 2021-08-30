@@ -64,9 +64,10 @@
   (setq speed "1")
   (let ((id (gethash "id" (json-parse-string element)))
         (speed (number-to-string (gethash "speed" (json-parse-string element))))
+        (opacity (number-to-string (gethash "opacity" (json-parse-string element))))
         (x (number-to-string (gethash "x" (json-parse-string element))))
         (y (number-to-string (gethash "y" (json-parse-string element)))))
-    (ore/insert (concat "<div data-id=\"" id "\" data-auto-animate-duration=\"" speed "\" style=\"position: absolute; top: " y "%; left: " x "%;\">\n")))
+    (ore/insert (concat "<div data-id=\"" id "\" data-auto-animate-duration=\"" speed "\" style=\"position: absolute; top: " y "%; left: " x "%; opacity: " opacity "\">\n")))
 
   (ore/load-svg-element (gethash "file" (json-parse-string element)))
   (ore/insert "</div>\n")
