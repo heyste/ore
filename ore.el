@@ -61,7 +61,6 @@
 
 (defun ore/render-element (element)
   "Using ELEMENT load the svg at the required location on the page."
-  (setq speed "1")
   (let ((id (gethash "id" (json-parse-string element)))
         (speed (number-to-string (gethash "speed" (json-parse-string element))))
         (opacity (number-to-string (gethash "opacity" (json-parse-string element))))
